@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CRUD Operations</title>
+</head>
+<body>
+    <h1>CRUD Operations</h1>
+
+    <h2>Create User</h2>
+    <form action="/users" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+        <label for="fname">First Name:</label>
+        <input type="text" id="fname" name="fname" required><br><br>
+        <label for="lname">Last Name:</label>
+        <input type="text" id="lname" name="lname" required><br><br>
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" required><br><br>
+        <input type="submit" value="Create User">
+    </form>
+
+    <hr>
+
+    <h2>Update User</h2>
+    <form id="updateForm" method="POST">
+        <label for="updateId">User ID:</label>
+        <input type="number" id="updateId" name="user_id" required><br><br>
+        <label for="updateFname">First Name:</label>
+        <input type="text" id="updateFname" name="fname" required><br><br>
+        <label for="updateLname">Last Name:</label>
+        <input type="text" id="updateLname" name="lname" required><br><br>
+        <label for="updateAge">Age:</label>
+        <input type="number" id="updateAge" name="age" required><br><br>
+        <input type="submit" value="Update User">
+    </form>
+
+    <hr>
+
+    <h2>Delete User</h2>
+    <form id="deleteForm" method="POST">
+        <label for="deleteId">User ID:</label>
+        <input type="number" id="deleteId" name="user_id" required><br><br>
+        <input type="submit" value="Delete User">
+    </form>
+
+    <script>
+        // JavaScript code to submit update form via AJAX
+        document.getElementById("updateForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            var form = event.target;
+            var user_id = form.elements["user_id"].value;
+            var fname = form.elements["fname"].value;
+            var lname = form.elements["lname"].value;
+            var age = form.elements["age"].value;
+            var xhr = new XMLHttpRequest();
+            xhr.open("PUT", "/users/" + user_id, true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    alert("User updated successfully");
+                }
+            };
+            xhr.send("fname=" + fname + "&lname=" + lname + "&age=" + age);
+        });
+
+        // JavaScript code to submit delete form via AJAX
+        document.getElementById("deleteForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            var form = event.target;
+            var user_id = form.elements["user_id"].value;
+            var xhr = new XMLHttpRequest();
+            xhr.open("DELETE", "/users/" + user_id, true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    alert("User deleted successfully");
+                }
+            };
+            xhr.send();
+        });
+    </script>
+</body>
+</html>
+
+
+
+
