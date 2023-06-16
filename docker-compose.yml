@@ -1,0 +1,28 @@
+version: '3'
+services:
+  db:
+    build:
+      context: ./sample_db  
+    ports:
+      - 3306:3306   
+    environment:
+      - MYSQL_ROOT_PASSWORD=srepoc123   
+      - MYSQL_DATABASE=srepoc  
+    volumes:
+      - db_data:/var/lib/mysql  
+      - ./sample_db/my.cnf:/etc/mysql/my.cnf 
+
+  app:
+    build: ./sample_app
+    restart: always
+    ports:
+      - 5000:5000
+    depends_on:
+      - db
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_USER=admin
+      - DATABASE_PASSWORD=srepoc123
+      - DATABASE_NAME=srepoc
+volumes:
+  db_data:
